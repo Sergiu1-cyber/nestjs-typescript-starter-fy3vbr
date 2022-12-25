@@ -7,11 +7,10 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class InfoService {
-
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async create(createInfoDto: CreateInfoDto): Promise<User> {
-    const createdUser = new this.userModel(createInfoDto)
+    const createdUser = new this.userModel(createInfoDto);
     return createdUser.save();
   }
 
@@ -19,15 +18,15 @@ export class InfoService {
     return this.userModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} info`;
+  findOne(id: string) {
+    return this.userModel.findById(id);
   }
 
-  update(id: number, updateInfoDto: UpdateInfoDto) {
-    return `This action updates a #${id} info`;
+  update(id: string, updateInfoDto: UpdateInfoDto) {
+    return this.userModel.findByIdAndUpdate(id, updateInfoDto, { new: true });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} info`;
+  remove(id: string) {
+    return this.userModel.findByIdAndRemove(id);
   }
 }
